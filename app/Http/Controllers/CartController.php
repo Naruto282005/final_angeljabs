@@ -11,6 +11,10 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
+        if (!$request->user()) {
+            return redirect()->route('login');
+        }
+
         $user = $request->user();
 
         $items = CartItem::with('product')
@@ -25,6 +29,7 @@ class CartController extends Controller
                         'name' => $item->product->name,
                         'price' => $item->product->price,
                         'stock' => $item->product->stock,
+                        'category' => $item->product->category,
                     ],
                     'subtotal' => $item->qty * $item->product->price,
                 ];
@@ -37,11 +42,18 @@ class CartController extends Controller
             'items' => $items,
             'subtotal' => $subtotal,
             'total' => $total,
+            'auth' => [
+                'user' => $user,
+            ],
         ]);
     }
 
     public function add(Request $request, Product $product)
     {
+        if (!$request->user()) {
+            return redirect()->route('login');
+        }
+
         $request->validate([
             'qty' => ['required', 'integer', 'min:1'],
         ]);
@@ -66,6 +78,10 @@ class CartController extends Controller
 
     public function update(Request $request, CartItem $cartItem)
     {
+        if (!$request->user()) {
+            return redirect()->route('login');
+        }
+
         $this->authorizeCartItem($request, $cartItem);
 
         $request->validate([
@@ -81,6 +97,10 @@ class CartController extends Controller
 
     public function remove(Request $request, CartItem $cartItem)
     {
+        if (!$request->user()) {
+            return redirect()->route('login');
+        }
+
         $this->authorizeCartItem($request, $cartItem);
         $cartItem->delete();
 

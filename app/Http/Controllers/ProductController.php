@@ -8,18 +8,43 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+    public function landing()
+    {
+        $featuredProducts = Product::where('is_active', true)
+            ->latest()
+            ->take(4)
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'category' => $product->category,
+                    'origin' => $product->origin,
+                    'description' => $product->description,
+                    'price' => $product->price,
+                    'stock' => $product->stock,
+                    'image' => $product->image ? asset('storage/' . $product->image) : null,
+                ];
+            });
+
+        return Inertia::render('Landing', [
+            'featuredProducts' => $featuredProducts,
+            'categories' => ['Single Origin', 'Blends', 'Decaf'],
+        ]);
+    }
+
     public function index(Request $request)
     {
         $search = $request->string('search')->toString();
         $category = $request->string('category')->toString();
-        $sort = $request->string('sort')->toString(); // price_asc / price_desc
+        $sort = $request->string('sort')->toString();
 
         $query = Product::query()->where('is_active', true);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                ->orWhere('origin', 'like', "%{$search}%");
+                    ->orWhere('origin', 'like', "%{$search}%");
             });
         }
 
@@ -35,7 +60,18 @@ class ProductController extends Controller
             $query->latest();
         }
 
-        $products = $query->paginate(8)->withQueryString();
+        $products = $query->paginate(8)->through(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'category' => $product->category,
+                'origin' => $product->origin,
+                'description' => $product->description,
+                'price' => $product->price,
+                'stock' => $product->stock,
+                'image' => $product->image ? asset('storage/' . $product->image) : null,
+            ];
+        })->withQueryString();
 
         return Inertia::render('Products/Index', [
             'products' => $products,
@@ -53,7 +89,16 @@ class ProductController extends Controller
         abort_unless($product->is_active, 404);
 
         return Inertia::render('Products/Show', [
-            'product' => $product,
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'category' => $product->category,
+                'origin' => $product->origin,
+                'description' => $product->description,
+                'price' => $product->price,
+                'stock' => $product->stock,
+                'image' => $product->image ? asset('storage/' . $product->image) : null,
+            ],
         ]);
     }
 }

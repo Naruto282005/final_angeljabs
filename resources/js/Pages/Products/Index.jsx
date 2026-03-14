@@ -12,23 +12,33 @@ export default function ProductsIndex({ products, filters, categories }) {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
             <div className="bg-white border-b">
                 <div className="max-w-6xl mx-auto px-4 py-10">
-                    <h1 className="text-3xl font-bold">Products</h1>
-                    <p className="text-gray-600 mt-2">
-                        Specialty Coffee Beans only — search, filter, sort.
-                    </p>
-                    <div className="mt-4">
-                        <Link href="/" className="text-sm underline">
-                            ← Back to home
+                    <div className="flex items-start justify-between gap-4">
+                        <div>
+                            <h1 className="text-3xl font-bold">Products</h1>
+                            <p className="text-gray-600 mt-2">
+                                Specialty Coffee Beans only — search, filter, sort.
+                            </p>
+                            <div className="mt-4">
+                                <Link href="/" className="text-sm underline">
+                                    ← Back to home
+                                </Link>
+                            </div>
+                        </div>
+
+                        <Link
+                            href="/cart"
+                            className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
+                        >
+                            <span>🛒</span>
+                            <span>Cart</span>
                         </Link>
                     </div>
                 </div>
             </div>
 
             <div className="max-w-6xl mx-auto px-4 py-8">
-                {/* Filters */}
                 <div className="bg-white border rounded-lg p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <input
                         value={filters.search ?? ""}
@@ -78,20 +88,30 @@ export default function ProductsIndex({ products, filters, categories }) {
                     </div>
                 </div>
 
-                {/* Grid */}
                 <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {products.data.map((p) => (
                         <div
                             key={p.id}
                             className="bg-white border rounded-lg p-4"
                         >
-                            <div className="h-28 bg-gray-100 rounded mb-4" />
+                            {p.image ? (
+                                <img
+                                    src={p.image}
+                                    alt={p.name}
+                                    className="w-full h-28 object-cover rounded mb-4"
+                                />
+                            ) : (
+                                <div className="h-28 bg-gray-100 rounded mb-4" />
+                            )}
+
                             <p className="font-semibold">{p.name}</p>
                             <p className="text-sm text-gray-600">{p.origin}</p>
                             <p className="text-sm text-gray-600">
                                 Category: {p.category}
                             </p>
-                            <p className="mt-2 font-bold">₱{p.price}</p>
+                            <p className="mt-2 font-bold">
+                                ₱{Number(p.price).toFixed(2)}
+                            </p>
                             <p className="text-sm mt-1">
                                 Stock:{" "}
                                 <span
@@ -115,7 +135,6 @@ export default function ProductsIndex({ products, filters, categories }) {
                     ))}
                 </div>
 
-                {/* Pagination */}
                 <div className="mt-8 flex flex-wrap gap-2">
                     {products.links.map((link, idx) => (
                         <button

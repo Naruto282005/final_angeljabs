@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
-export default function CartIndex({ items, subtotal, total }) {
+export default function CartIndex({ items, subtotal, total, auth }) {
     const updateQty = (id, qty) => {
+        if (qty < 1) return;
         router.patch(`/cart/${id}`, { qty }, { preserveScroll: true });
     };
 
@@ -10,8 +11,18 @@ export default function CartIndex({ items, subtotal, total }) {
         router.delete(`/cart/${id}`, { preserveScroll: true });
     };
 
+    const goToCheckout = () => {
+        if (auth?.user) {
+            router.visit("/checkout");
+        } else {
+            router.visit("/login");
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
+            <Head title="Cart" />
+
             <div className="bg-white border-b">
                 <div className="max-w-5xl mx-auto px-4 py-10">
                     <h1 className="text-3xl font-bold">Cart</h1>
@@ -42,7 +53,7 @@ export default function CartIndex({ items, subtotal, total }) {
                                         {item.product.name}
                                     </p>
                                     <p className="text-sm text-gray-600">
-                                        ₱{item.product.price}
+                                        ₱{Number(item.product.price).toFixed(2)}
                                     </p>
 
                                     <div className="mt-3 flex items-center gap-3">
@@ -89,7 +100,11 @@ export default function CartIndex({ items, subtotal, total }) {
 
                                 <div className="text-right">
                                     <p className="font-semibold">
-                                        ₱{item.subtotal}
+                                        ₱
+                                        {(
+                                            Number(item.product.price) *
+                                            Number(item.qty)
+                                        ).toFixed(2)}
                                     </p>
                                 </div>
                             </div>
@@ -102,11 +117,11 @@ export default function CartIndex({ items, subtotal, total }) {
                     <div className="mt-4 text-sm space-y-2">
                         <div className="flex justify-between">
                             <span>Subtotal</span>
-                            <span>₱{subtotal}</span>
+                            <span>₱{Number(subtotal).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between font-semibold">
                             <span>Total</span>
-                            <span>₱{total}</span>
+                            <span>₱{Number(total).toFixed(2)}</span>
                         </div>
                     </div>
 
@@ -117,7 +132,7 @@ export default function CartIndex({ items, subtotal, total }) {
                                 : "bg-gray-200 text-gray-500 cursor-not-allowed"
                         }`}
                         disabled={!items.length}
-                        onClick={() => router.visit("/checkout")}
+                        onClick={goToCheckout}
                     >
                         Proceed to Checkout
                     </button>

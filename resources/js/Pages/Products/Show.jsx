@@ -22,26 +22,53 @@ export default function Show({ product }) {
         <div className="min-h-screen bg-gray-50">
             <div className="bg-white border-b">
                 <div className="max-w-6xl mx-auto px-4 py-10">
-                    <Link href="/products" className="text-sm underline">
-                        ← Back to products
-                    </Link>
-                    <h1 className="text-3xl font-bold mt-3">{product.name}</h1>
-                    <p className="text-gray-600 mt-1">{product.origin}</p>
+                    <div className="flex items-start justify-between gap-4">
+                        <div>
+                            <h1 className="text-3xl font-bold">Products</h1>
+                            <p className="text-gray-600 mt-2">
+                                Specialty Coffee Beans only — search, filter,
+                                sort.
+                            </p>
+                            <div className="mt-4">
+                                <Link href="/" className="text-sm underline">
+                                    ← Back to home
+                                </Link>
+                            </div>
+                        </div>
+
+                        <Link
+                            href="/cart"
+                            className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
+                        >
+                            <span>🛒</span>
+                            <span>Cart</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
 
             <div className="max-w-6xl mx-auto px-4 py-10 grid gap-8 lg:grid-cols-2">
-                {/* Image */}
                 <div className="bg-white border rounded-lg p-4">
-                    <div className="h-80 bg-gray-100 rounded" />
-                    <p className="text-sm text-gray-500 mt-3">
-                        *Image placeholder
-                    </p>
+                    {product.image ? (
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-80 object-cover rounded"
+                        />
+                    ) : (
+                        <>
+                            <div className="h-80 bg-gray-100 rounded" />
+                            <p className="text-sm text-gray-500 mt-3">
+                                *Image placeholder
+                            </p>
+                        </>
+                    )}
                 </div>
 
-                {/* Details */}
                 <div className="bg-white border rounded-lg p-6">
-                    <p className="text-2xl font-bold">₱{product.price}</p>
+                    <p className="text-2xl font-bold">
+                        ₱{Number(product.price).toFixed(2)}
+                    </p>
 
                     <p className="mt-2 text-sm">
                         Stock:{" "}
@@ -69,7 +96,6 @@ export default function Show({ product }) {
                         </p>
                     </div>
 
-                    {/* Quantity */}
                     <div className="mt-6">
                         <h2 className="font-semibold">Quantity</h2>
                         <div className="mt-2 flex items-center gap-3">
@@ -98,7 +124,6 @@ export default function Show({ product }) {
                         </div>
                     </div>
 
-                    {/* Add to Cart */}
                     <button
                         className={`mt-6 w-full px-5 py-3 rounded font-medium ${
                             product.stock > 0
