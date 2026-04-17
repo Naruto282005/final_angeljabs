@@ -11,33 +11,62 @@ export default function ProductsIndex({ products, filters, categories }) {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="bg-white border-b">
-                <div className="max-w-6xl mx-auto px-4 py-10">
-                    <div className="flex items-start justify-between gap-4">
-                        <div>
-                            <h1 className="text-3xl font-bold">Products</h1>
-                            <p className="text-gray-600 mt-2">
-                                Specialty Coffee Beans only — search, filter, sort.
-                            </p>
-                            <div className="mt-4">
-                                <Link href="/" className="text-sm underline">
-                                    ← Back to home
-                                </Link>
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url('/images/coffee-bg.jpg')",
+            }}
+        >
+            <div
+                className="bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/images/coffee-bg.jpg')",
+                }}
+            >
+                <div
+                    className="bg-cover bg-center bg-no-repeat"
+                    style={{
+                        backgroundImage: "url('/images/coffee-bg.jpg')",
+                    }}
+                >
+                    <div className="max-w-5xl mx-auto px-4 py-9">
+                        <div className="flex justify-center">
+                            <div className="rounded-xl bg-black px-5 py-2">
+                                <h1 className="text-5xl font-bold text-white">
+                                    BrewLocal
+                                </h1>
                             </div>
                         </div>
-
-                        <Link
-                            href="/cart"
-                            className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
-                        >
-                            <span>🛒</span>
-                            <span>Cart</span>
-                        </Link>
                     </div>
                 </div>
             </div>
+            <div className="max-w-6xl mx-auto px-4 py-10">
+                <div className="flex items-start justify-between gap-4">
+                    <div>
+                        <h1 className="text-5xl font-bold">Products</h1>
+                        <p className=" mt-2">
+                            Specialty Coffee Beans only — search, filter, sort.
+                        </p>
+                        <div className="mt-4">
+                            <Link
+                                href="/"
+                                className="text-sm underline hover:text-gray-200"
+                            >
+                                ← Back to home
+                            </Link>
+                        </div>
+                    </div>
 
+                    <Link
+                        href="/cart"
+                        className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
+                    >
+                        <span>🛒</span>
+                        <span>Cart</span>
+                    </Link>
+                </div>
+            </div>
             <div className="max-w-6xl mx-auto px-4 py-8">
                 <div className="bg-white border rounded-lg p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <input

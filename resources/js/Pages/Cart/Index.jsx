@@ -20,21 +20,40 @@ export default function CartIndex({ items, subtotal, total, auth }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url('/images/coffee-bg.jpg')",
+            }}
+        >
             <Head title="Cart" />
 
-            <div className="bg-white border-b">
-                <div className="max-w-5xl mx-auto px-4 py-10">
-                    <h1 className="text-3xl font-bold">Cart</h1>
-                    <Link
-                        href="/products"
-                        className="text-sm underline mt-2 inline-block"
-                    >
-                        ← Continue shopping
-                    </Link>
+            <div
+                className="bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/images/coffee-bg.jpg')",
+                }}
+            >
+                <div className="max-w-5xl mx-auto px-4 py-9">
+                    <div className="flex justify-center">
+                        <div className="rounded-xl bg-black px-5 py-2">
+                            <h1 className="text-5xl font-bold text-white">
+                                BrewLocal
+                            </h1>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <div className="max-w-5xl mx-auto px-4 py-10">
+                <h1 className="text-5xl font-bold">Cart</h1>
+                <Link
+                    href="/products"
+                    className="text-sm underline mt-2 inline-block"
+                >
+                    ← Continue shopping
+                </Link>
+            </div>
             <div className="max-w-5xl mx-auto px-4 py-8 grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2 space-y-4">
                     {items.length === 0 ? (
@@ -47,7 +66,15 @@ export default function CartIndex({ items, subtotal, total, auth }) {
                                 key={item.id}
                                 className="bg-white border rounded-lg p-4 flex gap-4"
                             >
-                                <div className="w-20 h-20 bg-gray-100 rounded" />
+                                {item.product.image ? (
+                                    <img
+                                        src={item.product.image}
+                                        alt={item.product.name}
+                                        className="w-20 h-20 object-cover rounded"
+                                    />
+                                ) : (
+                                    <div className="w-20 h-20 bg-gray-100 rounded" />
+                                )}
                                 <div className="flex-1">
                                     <p className="font-semibold">
                                         {item.product.name}

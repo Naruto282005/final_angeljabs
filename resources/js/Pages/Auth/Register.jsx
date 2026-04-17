@@ -1,8 +1,5 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
+import InputError from '@/Components/InputError';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
@@ -25,96 +22,121 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
+            <div className="coffee-login-page">
+                <div className="coffee-login-overlay"></div>
 
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
+                <div className="coffee-login-card">
+                    <form onSubmit={submit}>
+                        <div className="mb-3">
+                            <label
+                                htmlFor="name"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Name
+                            </label>
+                            <input
+                                id="name"
+                                type="text"
+                                name="name"
+                                value={data.name}
+                                autoComplete="name"
+                                onChange={(e) => setData('name', e.target.value)}
+                                className="coffee-input"
+                                required
+                                autoFocus
+                            />
+                            <InputError
+                                message={errors.name}
+                                className="mt-1 text-[10px]"
+                            />
+                        </div>
 
-                    <InputError message={errors.name} className="mt-2" />
+                        <div className="mb-3">
+                            <label
+                                htmlFor="email"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                name="email"
+                                value={data.email}
+                                autoComplete="username"
+                                onChange={(e) => setData('email', e.target.value)}
+                                className="coffee-input"
+                                required
+                            />
+                            <InputError
+                                message={errors.email}
+                                className="mt-1 text-[10px]"
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label
+                                htmlFor="password"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                name="password"
+                                value={data.password}
+                                autoComplete="new-password"
+                                onChange={(e) => setData('password', e.target.value)}
+                                className="coffee-input"
+                                required
+                            />
+                            <InputError
+                                message={errors.password}
+                                className="mt-1 text-[10px]"
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label
+                                htmlFor="password_confirmation"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Confirm Password
+                            </label>
+                            <input
+                                id="password_confirmation"
+                                type="password"
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                autoComplete="new-password"
+                                onChange={(e) =>
+                                    setData('password_confirmation', e.target.value)
+                                }
+                                className="coffee-input"
+                                required
+                            />
+                        </div>
+
+                        <div className="mt-4 flex items-center justify-between gap-2">
+                            <Link
+                                href={route('login')}
+                                className="text-[10px] text-[#8c7f7f] hover:text-black"
+                            >
+                                Already registered?
+                            </Link>
+
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="coffee-login-button"
+                            >
+                                REGISTER
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        required
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
-            </form>
+            </div>
         </GuestLayout>
     );
 }

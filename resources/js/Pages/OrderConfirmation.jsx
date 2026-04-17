@@ -1,13 +1,47 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 
 export default function OrderConfirmation({ auth, order }) {
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('/images/coffee-bg.jpg')",
+            }}
+        >
             <Head title="Order Confirmation" />
 
+            <div
+                className="bg-cover bg-center bg-no-repeat border-b"
+                style={{
+                    backgroundImage: "url('/images/coffee-bg.jpg')",
+                }}
+            >
+                <div className="max-w-5xl mx-auto px-4 py-9">
+                    <div className="flex justify-center">
+                        <div className="rounded-xl bg-black px-5 py-2">
+                            <h1 className="text-5xl font-bold text-white">
+                                BrewLocal
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="max-w-4xl mx-auto px-4 py-4">
+                <div className="mt-6">
+                    <h2 className="text-3xl font-bold">
+                        Order Confirmation
+                    </h2>
+                    <Link
+                        href={route("products.index")}
+                        className="text-sm underline mt-2 inline-block"
+                    >
+                        ← Continue shopping
+                    </Link>
+                </div>
+            </div>
             <div className="max-w-4xl mx-auto p-6">
-                <div className="bg-white rounded shadow p-6">
+                <div className="bg-white/95 rounded shadow p-6">
                     <h1 className="text-3xl font-bold mb-2">
                         Thank you for your order!
                     </h1>
@@ -93,6 +127,6 @@ export default function OrderConfirmation({ auth, order }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </div>
     );
 }

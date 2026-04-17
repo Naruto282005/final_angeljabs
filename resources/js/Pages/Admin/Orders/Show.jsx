@@ -1,4 +1,3 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function AdminOrderShow({ auth, order }) {
@@ -12,18 +11,44 @@ export default function AdminOrderShow({ auth, order }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('/images/coffee-bg.jpg')",
+            }}
+        >
             <Head title={`Order ${order.order_number}`} />
 
-            <div className="max-w-5xl mx-auto p-6 space-y-6">
-                <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold">Order Details</h1>
-                    <Link href={route('admin.orders.index')} className="px-4 py-2 border rounded">
-                        Back to Orders
-                    </Link>
+            <div
+                className="bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/images/coffee-bg.jpg')",
+                }}
+            >
+                <div className="max-w-5xl mx-auto px-4 py-9">
+                    <div className="flex justify-center">
+                        <div className="rounded-xl bg-black px-5 py-2">
+                            <h1 className="text-5xl font-bold text-white">
+                                BrewLocal
+                            </h1>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <div className="bg-white rounded shadow p-6">
+            <div className="max-w-5xl mx-auto px-4 py-10">
+                <h1 className="text-5xl font-bold">Order Details</h1>
+                <Link
+                    href={route('admin.orders.index')}
+                    className="text-sm underline mt-2 inline-block"
+                >
+                    ← Back to orders
+                </Link>
+            </div>
+
+            <div className="max-w-5xl mx-auto p-6 space-y-6">
+                <div className="bg-white/95 rounded shadow p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         <div>
                             <p><strong>Order Number:</strong> {order.order_number}</p>
@@ -32,7 +57,12 @@ export default function AdminOrderShow({ auth, order }) {
                             <p><strong>Address:</strong> {order.address}, {order.city}</p>
                         </div>
                         <div>
-                            <p><strong>Payment Method:</strong> {order.payment_method === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'}</p>
+                            <p>
+                                <strong>Payment Method:</strong>{' '}
+                                {order.payment_method === 'cod'
+                                    ? 'Cash on Delivery'
+                                    : 'Bank Transfer'}
+                            </p>
                             <p><strong>Subtotal:</strong> ₱{Number(order.subtotal).toFixed(2)}</p>
                             <p><strong>Shipping Fee:</strong> ₱{Number(order.shipping_fee).toFixed(2)}</p>
                             <p><strong>Total:</strong> ₱{Number(order.total).toFixed(2)}</p>
@@ -45,7 +75,9 @@ export default function AdminOrderShow({ auth, order }) {
                             <div key={item.id} className="flex justify-between border-b pb-2">
                                 <div>
                                     <div className="font-medium">{item.product_name}</div>
-                                    <div className="text-sm text-gray-500">Qty: {item.quantity}</div>
+                                    <div className="text-sm text-gray-500">
+                                        Qty: {item.quantity}
+                                    </div>
                                 </div>
                                 <div>₱{Number(item.subtotal).toFixed(2)}</div>
                             </div>
@@ -77,6 +109,6 @@ export default function AdminOrderShow({ auth, order }) {
                     </form>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </div>
     );
 }

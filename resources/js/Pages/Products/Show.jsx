@@ -19,46 +19,72 @@ export default function Show({ product }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="bg-white border-b">
-                <div className="max-w-6xl mx-auto px-4 py-10">
-                    <div className="flex items-start justify-between gap-4">
-                        <div>
-                            <h1 className="text-3xl font-bold">Products</h1>
-                            <p className="text-gray-600 mt-2">
-                                Specialty Coffee Beans only — search, filter,
-                                sort.
-                            </p>
-                            <div className="mt-4">
-                                <Link href="/" className="text-sm underline">
-                                    ← Back to home
-                                </Link>
-                            </div>
+        <div
+            className="min-h-screen bg-cover bg-center bg-no-repeat"
+            style={{
+                backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url('/images/coffee-bg.jpg')",
+            }}
+        >
+            <div
+                className="bg-cover bg-center bg-no-repeat"
+                style={{
+                    backgroundImage: "url('/images/coffee-bg.jpg')",
+                }}
+            >
+                <div className="max-w-5xl mx-auto px-4 py-9">
+                    <div className="flex justify-center">
+                        <div className="rounded-xl bg-black px-5 py-2">
+                            <h1 className="text-5xl font-bold text-white">
+                                BrewLocal
+                            </h1>
                         </div>
-
-                        <Link
-                            href="/cart"
-                            className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
-                        >
-                            <span>🛒</span>
-                            <span>Cart</span>
-                        </Link>
                     </div>
                 </div>
             </div>
+            <div className="max-w-6xl mx-auto px-4 py-10">
+                <div className="flex items-start justify-between gap-4">
+                    <div>
+                        <h1 className="text-5xl  font-bold">Products</h1>
+                        <p className=" mt-2">
+                            Specialty Coffee Beans only — search, filter, sort.
+                        </p>
+                        <div className="mt-4">
+                            <Link href="/" className="text-sm  underline">
+                                ← Back to home
+                            </Link>
+                        </div>
+                    </div>
 
+                    <Link
+                        href="/cart"
+                        className="inline-flex items-center gap-2 px-4 py-2 border rounded bg-white hover:bg-gray-100"
+                    >
+                        <span>🛒</span>
+                        <span>Cart</span>
+                    </Link>
+                </div>
+            </div>
             <div className="max-w-6xl mx-auto px-4 py-10 grid gap-8 lg:grid-cols-2">
                 <div className="bg-white border rounded-lg p-4">
                     {product.image ? (
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-80 object-cover rounded"
-                        />
+                        <>
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-80 object-cover rounded"
+                            />
+                            <h2 className="mt-3 text-2xl font-bold">
+                                {product.name}
+                            </h2>
+                        </>
                     ) : (
                         <>
                             <div className="h-80 bg-gray-100 rounded" />
-                            <p className="text-sm text-gray-500 mt-3">
+                            <h2 className="mt-3 text-2xl font-bold">
+                                {product.name}
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-2">
                                 *Image placeholder
                             </p>
                         </>

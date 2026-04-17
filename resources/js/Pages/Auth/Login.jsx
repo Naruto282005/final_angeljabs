@@ -1,12 +1,12 @@
 import Checkbox from '@/Components/Checkbox';
+import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword = true }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -25,76 +25,104 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
+            <div className="coffee-login-page">
+                <div className="coffee-login-overlay"></div>
 
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
-                        </span>
-                    </label>
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
-                        </Link>
+                <div className="coffee-login-card">
+                    {status && (
+                        <div className="mb-3 text-[10px] text-green-700">
+                            {status}
+                        </div>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                    <form onSubmit={submit}>
+                        <div className="mb-3">
+                            <label
+                                htmlFor="email"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Email
+                            </label>
+
+                            <input
+                                id="email"
+                                type="email"
+                                name="email"
+                                value={data.email}
+                                autoComplete="username"
+                                onChange={(e) => setData('email', e.target.value)}
+                                className="coffee-input"
+                                required
+                                autoFocus
+                            />
+
+                            <InputError
+                                message={errors.email}
+                                className="mt-1 text-[10px]"
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label
+                                htmlFor="password"
+                                className="mb-1 block text-[10px] text-[#5f5555]"
+                            >
+                                Password
+                            </label>
+
+                            <input
+                                id="password"
+                                type="password"
+                                name="password"
+                                value={data.password}
+                                autoComplete="current-password"
+                                onChange={(e) => setData('password', e.target.value)}
+                                className="coffee-input"
+                                required
+                            />
+
+                            <InputError
+                                message={errors.password}
+                                className="mt-1 text-[10px]"
+                            />
+                        </div>
+
+                        <div className="mt-4 flex items-center justify-between gap-2">
+                            <label className="flex items-center gap-2 text-[10px] text-[#5f5555]">
+                            </label>
+
+                            {canResetPassword && (
+                                <Link
+                                    href={route('password.request')}
+                                    className="text-[10px] text-[#5f5555] underline hover:text-black"
+                                >
+                                    Forgot password?
+                                </Link>
+                            )}
+                        </div>
+
+                        <div className="mt-4 flex justify-end">
+                            <button
+                                type="submit"
+                                disabled={processing}
+                                className="coffee-login-button"
+                            >
+                                LOG IN
+                            </button>
+                        </div>
+
+                        <div className="mt-3 text-center text-[10px] text-[#5f5555]">
+                            Don&apos;t have an account?{' '}
+                            <Link
+                                href={route('register')}
+                                className="underline hover:text-black"
+                            >
+                                Register
+                            </Link>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </GuestLayout>
     );
 }
