@@ -4,10 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+    private function imageUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        // For seeded images stored inside public/images/...
+        if (Str::startsWith($path, 'images/')) {
+            return asset($path);
+        }
+
+        // For uploaded images stored in storage/app/public/...
+        return asset('storage/' . $path);
+    }
+
     public function landing()
     {
         $featuredProducts = Product::where('is_active', true)
@@ -23,7 +43,7 @@ class ProductController extends Controller
                     'description' => $product->description,
                     'price' => $product->price,
                     'stock' => $product->stock,
-                    'image' => $product->image ? asset('storage/' . $product->image) : null,
+                    'image' => $this->imageUrl($product->image),
                 ];
             });
 
@@ -69,7 +89,7 @@ class ProductController extends Controller
                 'description' => $product->description,
                 'price' => $product->price,
                 'stock' => $product->stock,
-                'image' => $product->image ? asset('storage/' . $product->image) : null,
+                'image' => $this->imageUrl($product->image),
             ];
         })->withQueryString();
 
@@ -97,7 +117,7 @@ class ProductController extends Controller
                 'description' => $product->description,
                 'price' => $product->price,
                 'stock' => $product->stock,
-                'image' => $product->image ? asset('storage/' . $product->image) : null,
+                'image' => $this->imageUrl($product->image),
             ],
         ]);
     }

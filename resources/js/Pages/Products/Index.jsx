@@ -125,7 +125,7 @@ export default function ProductsIndex({ products, filters, categories }) {
                         >
                             {p.image ? (
                                 <img
-                                    src={`/${p.image}`}
+                                    src={p.image}
                                     alt={p.name}
                                     className="w-full h-28 object-cover rounded mb-4"
                                 />

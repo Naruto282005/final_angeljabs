@@ -5,10 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class AdminProductController extends Controller
 {
+    private function imageUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        // Seeded images in public/images/...
+        if (Str::startsWith($path, 'images/')) {
+            return asset($path);
+        }
+
+        // Uploaded images in storage/app/public/...
+        return asset('storage/' . $path);
+    }
+
     public function index()
     {
         $products = Product::orderByDesc('id')->paginate(10)->through(function ($product) {
@@ -21,7 +42,7 @@ class AdminProductController extends Controller
                 'stock' => $product->stock,
                 'is_active' => $product->is_active,
                 'description' => $product->description,
-                'image' => $product->image ? asset('storage/' . $product->image) : null,
+                'image' => $this->imageUrl($product->image),
             ];
         });
 
@@ -68,6 +89,10 @@ class AdminProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            if ($product->image && !Str::startsWith($product->image, 'images/')) {
+                Storage::disk('public')->delete($product->image);
+            }
+
             $validated['image'] = $request->file('image')->store('products', 'public');
         }
 
@@ -78,6 +103,10 @@ class AdminProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if ($product->image && !Str::startsWith($product->image, 'images/')) {
+            Storage::disk('public')->delete($product->image);
+        }
+
         $product->delete();
 
         return back()->with('success', 'Product deleted successfully.');
