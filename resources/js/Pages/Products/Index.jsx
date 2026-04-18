@@ -124,14 +124,18 @@ export default function ProductsIndex({ products, filters, categories }) {
                             className="bg-white border rounded-lg p-4"
                         >
                             {p.image ? (
-                                <img
-                                    src={p.image}
-                                    alt={p.name}
-                                    className="w-full h-28 object-cover rounded mb-4"
-                                />
-                            ) : (
-                                <div className="h-28 bg-gray-100 rounded mb-4" />
-                            )}
+    <img
+        src={`/${p.image}`}
+        alt={p.name}
+        onError={(e) => {
+            console.log("Broken image:", p.image);
+            e.currentTarget.src = "/images/coffee-bg.jpg";
+        }}
+        className="w-full h-28 object-cover rounded mb-4"
+    />
+) : (
+    <div className="h-28 bg-gray-100 rounded mb-4" />
+)}
 
                             <p className="font-semibold">{p.name}</p>
                             <p className="text-sm text-gray-600">{p.origin}</p>
